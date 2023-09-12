@@ -4,7 +4,7 @@ import subprocess
 class TestMainScript(unittest.TestCase):
     def test_main_script(self):
         # Create a subprocess to run main.py
-        cmd = ["python", "main.py"]
+        cmd = ["python3", "main.py"]
         input_data = "5\n3\n8\n2\n"  # Simulate user input
         expected_output = "2\n"     # Expected output
 
