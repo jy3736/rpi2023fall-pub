@@ -14,4 +14,4 @@ if num3 < min_num:
 if num4 < min_num:
     min_num = num4
 
-print(min_num+1)
+print(min_num)

@@ -1,26 +1,23 @@
-import unittest
+import os
 import subprocess
-import random
 
-class TestMainScript(unittest.TestCase):
-    def test_main_script(self):
-        cmd = ["python", "main.py"]
+class DirectoryExecutor:
+    def __init__(self):
+        self.current_directory = os.getcwd()
 
-        for _ in range(100):
-            a, b, c, d = [random.randint(1,100) for _ in range(4)]
-            input_data = f"{a}\n{b}\n{c}\n{d}\n"    
-            expected_output = f"{min(a,b,c,d)}"  # Expected output
-            print(f"Test case: {a}, {b}, {c}, {d}")
-            completed_process = subprocess.run(
-                cmd,
-                input=input_data,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,  # Use text mode for input/output
-            )
-            self.assertEqual(completed_process.returncode, 0)
-            result = completed_process.stdout.strip()
-            self.assertEqual(result, expected_output)
+    def construct_command(self):
+        base_name = os.path.basename(self.current_directory)
+        return f'python3 ../.check/__pycache__/test_{base_name}.cpython-310.pyc'
 
-if __name__ == '__main__':
-    unittest.main()
+    def execute_command(self):
+        command = self.construct_command()
+        try:
+            subprocess.run(command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error executing the command: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    executor = DirectoryExecutor()
+    executor.execute_command()
